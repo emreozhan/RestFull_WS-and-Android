@@ -14,10 +14,12 @@ public class SqliteDB {
     String DBPath="jdbc:sqlite:E:\\dbEV.sqlite";   
    
     
-  public JsonTip SelectHome() throws ClassNotFoundException 
+  public JsonTip[] SelectHome() throws ClassNotFoundException 
   {
-   
-    JsonTip rEV=new JsonTip();
+    JsonTip [] Jsondizi=new JsonTip[5];
+    int sayac=0;
+    
+    JsonTip rEv;
     Class.forName("org.sqlite.JDBC");
     Connection connection = null; 
     try
@@ -25,25 +27,32 @@ public class SqliteDB {
       connection = DriverManager.getConnection(DBPath);
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec
+       
+      //Satir Sayýsý
+        ResultSet count = statement.executeQuery("SELECT * FROM tblEV");
+        count = statement.executeQuery("SELECT COUNT(*) FROM tblEV");
+        count.next();
+        int rowCount = count.getInt(1);
+        Jsondizi=new JsonTip[rowCount];
+        
+         ResultSet rs = statement.executeQuery("select * from tblEV");
       
-      ResultSet rs = statement.executeQuery("select * from tblEV");
-      
-     
-
-      while(rs.next())
+         while(rs.next())
       {
-          rEV.setEvID(rs.getInt("evID"));
-          rEV.setEvIL(rs.getString("evIL"));
-          rEV.setEvEmlakTip(rs.getString("evEmlakTip"));
-          rEV.setEvAlan(rs.getInt("evAlan"));
-          rEV.setEvOdaSayisi(rs.getString("evOdaSayisi"));
-          rEV.setEvBinaYasi(rs.getInt("evBinaYasi"));
-          rEV.setEvBulKat(rs.getInt("evBulKat"));
-          rEV.setEvFiyat(rs.getInt("evFiyat"));
-          rEV.setEvAciklama(rs.getString("evAciklama"));
+          rEv=new JsonTip();
           
+          rEv.setEvID(rs.getInt("evID"));
+          rEv.setEvIL(rs.getString("evIL"));
+          rEv.setEvEmlakTip(rs.getString("evEmlakTip"));
+          rEv.setEvAlan(rs.getInt("evAlan"));
+          rEv.setEvOdaSayisi(rs.getString("evOdaSayisi"));
+          rEv.setEvBinaYasi(rs.getInt("evBinaYasi"));
+          rEv.setEvBulKat(rs.getInt("evBulKat"));
+          rEv.setEvFiyat(rs.getInt("evFiyat"));
+          rEv.setEvAciklama(rs.getString("evAciklama"));
           
-      
+          Jsondizi[sayac]=rEv;
+          sayac++;
             
       }
     
@@ -63,7 +72,7 @@ public class SqliteDB {
       {System.err.println(e);}
     }
     
-       return rEV;
+       return Jsondizi;
   }
     
  

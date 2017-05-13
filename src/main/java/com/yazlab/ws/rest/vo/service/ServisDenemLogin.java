@@ -16,22 +16,23 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 
-@Path("/Yazlab")
+@Path("/yazlab")
 public class ServisDenemLogin {
     
     
     @GET
-    @Path("/m/{msj}")
+    @Path("/tamliste")
+    ///RestJR/restJR/Yazlab/m/dummy
     @Produces({javax.ws.rs.core.MediaType.APPLICATION_JSON})
-    public JsonTip ButunEvListele(@PathParam("msj") String userName) throws ClassNotFoundException {
+    public JsonTip [] ButunEvListele() throws ClassNotFoundException {
         
-         JsonTip ret=new JsonTip();   
+         JsonTip [] ret=new JsonTip[2];   
          SqliteDB db=new SqliteDB();
          
          ret=db.SelectHome();
          
                  
-        return ret ;
+        return ret;
     }
     
     @GET
