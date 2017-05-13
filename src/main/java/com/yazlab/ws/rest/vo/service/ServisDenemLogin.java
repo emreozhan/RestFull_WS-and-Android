@@ -1,12 +1,14 @@
 package com.yazlab.ws.rest.vo.service;
 
 
+import com.yazlab.ws.rest.vo.DB.SqliteDB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import com.yazlab.ws.rest.vo.Deneme;
+import com.yazlab.ws.rest.vo.JsonTip;
+import java.io.File;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
@@ -21,14 +23,26 @@ public class ServisDenemLogin {
     @GET
     @Path("/m/{msj}")
     @Produces({javax.ws.rs.core.MediaType.APPLICATION_JSON})
-    public Deneme getUser(@PathParam("msj") String userName) {
-            
-            Deneme ee=new Deneme();
-            ee.setAd("fb");
-            ee.setSoyad("soGS");
-            ee.setDogru(true);
+    public JsonTip ButunEvListele(@PathParam("msj") String userName) throws ClassNotFoundException {
         
-        return ee ;
+         JsonTip ret=new JsonTip();   
+         SqliteDB db=new SqliteDB();
+         
+         ret=db.SelectHome();
+         
+                 
+        return ret ;
+    }
+    
+    @GET
+    @Path("/DBCREATE")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String DBKur() throws ClassNotFoundException{
+        
+        SqliteDB db=new SqliteDB();
+        db.DBCreate();
+    return "DB SIFIRLANDI";
     }
     
     
@@ -45,7 +59,7 @@ public class ServisDenemLogin {
    // @Consumes("text/plain")
     //@Produces("text/plain")
     @Produces({javax.ws.rs.core.MediaType.APPLICATION_JSON})
-    public String getUser(@PathParam("msj") String userName) {
+    public String ButunEvListele(@PathParam("msj") String userName) {
         
         return "mwsajiniz"+ userName ;
     }
