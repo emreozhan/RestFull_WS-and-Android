@@ -75,6 +75,49 @@ public class SqliteDB {
        return Jsondizi;
   }
     
+  
+  public void SelectHomePicture(String aranan) throws ClassNotFoundException
+  {
+    Class.forName("org.sqlite.JDBC");
+    Connection connection = null; 
+    try
+    {
+      connection = DriverManager.getConnection(DBPath);
+      Statement statement = connection.createStatement();
+      statement.setQueryTimeout(30);  // set timeout to 30 sec
+      
+      //Satir Sayýsý
+        ResultSet count = statement.executeQuery("SELECT * FROM tblRESIM WHERE resimEvID==aranan");
+        count = statement.executeQuery("SELECT COUNT(*) FROM tblRESIM WHERE resimEvID==aranan");
+        count.next();
+        int rowCount = count.getInt(1);
+        
+        
+         ResultSet rs = statement.executeQuery("select * from RESIM WHERE resimEvID==aranan");
+      
+      while(rs.next())
+      {
+            
+      }
+    
+    }
+    catch(SQLException e)
+    {
+      System.err.println(e.getMessage());
+    }
+    finally
+    {
+      try
+      {
+          if(connection != null)
+          connection.close();
+      }
+      catch(SQLException e)
+      {System.err.println(e);}
+    }
+    
+  
+  }
  
   public void DBCreate() throws ClassNotFoundException
     {
