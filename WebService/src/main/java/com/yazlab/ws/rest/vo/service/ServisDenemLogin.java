@@ -42,22 +42,17 @@ public class ServisDenemLogin {
    
     
     @GET
-    @Path("/img/{imageId}")
-    @Produces("image/*")
-    public  Response getImage(@PathParam(value = "imageId") String imageId) throws IOException {
- 
+    @Path("/img/{evID}/{resimID}")
+    @Produces("image/jpg")
+    public  Response getImage(@PathParam(value = "evID") int evID,@PathParam(value = "resimID") int resimId) throws IOException, ClassNotFoundException {
          
-    File sourceimage = new File("e:\\1j.jpg");
-    BufferedImage image = ImageIO.read(sourceimage);
+        SqliteDB dbResim=new SqliteDB();
 
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    ImageIO.write(image, "png", baos);
-    byte[] imageData = baos.toByteArray();
-
-    // uncomment line below to send non-streamed
-    //return Response.ok(imageData).build();
-    // uncomment line below to send streamed
-     return Response.ok(new ByteArrayInputStream(imageData)).build();
+         Response RR=dbResim.SelectHomePicture(evID,resimId);
+         
+         
+ 
+     return RR;
     }
     
 

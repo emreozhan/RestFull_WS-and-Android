@@ -2,12 +2,18 @@
 package com.yazlab.ws.rest.vo.DB;
 
 import com.yazlab.ws.rest.vo.JsonTip;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.imageio.ImageIO;
+import javax.ws.rs.core.Response;
 
 public class SqliteDB {
   
@@ -76,30 +82,38 @@ public class SqliteDB {
   }
     
   
-  public void SelectHomePicture(String aranan) throws ClassNotFoundException
+  public Response SelectHomePicture(int evID,int resimID) throws ClassNotFoundException, IOException
   {
     Class.forName("org.sqlite.JDBC");
     Connection connection = null; 
+    Response res=null;
     try
     {
       connection = DriverManager.getConnection(DBPath);
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec
-      
-      //Satir Sayýsý
-        ResultSet count = statement.executeQuery("SELECT * FROM tblRESIM WHERE resimEvID==aranan");
-        count = statement.executeQuery("SELECT COUNT(*) FROM tblRESIM WHERE resimEvID==aranan");
+
+        //Satir Sayýsý
+        ResultSet count = statement.executeQuery("SELECT * FROM tblRESIM WHERE resimEvID=="+evID+"");
+        count = statement.executeQuery("SELECT COUNT(*) FROM tblRESIM WHERE resimEvID=="+evID+"");
         count.next();
-        int rowCount = count.getInt(1);
         
-        
-         ResultSet rs = statement.executeQuery("select * from RESIM WHERE resimEvID==aranan");
-      
-      while(rs.next())
-      {
-            
-      }
-    
+         ResultSet rs = statement.executeQuery("select * from tblRESIM WHERE resimEvID=="+evID+"");
+         int i=0;
+         while(i<resimID)
+         { 
+          rs.next();
+          String adres=rs.getString("resimYol");
+          File sourceimage=new File(adres);
+          BufferedImage image = ImageIO.read(sourceimage);
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          ImageIO.write(image, "jpg", baos);
+          byte[] imageData = baos.toByteArray();     
+          res=Response.ok(new ByteArrayInputStream(imageData)).build();
+          i++;
+         }
+      return res;
+         
     }
     catch(SQLException e)
     {
@@ -116,7 +130,7 @@ public class SqliteDB {
       {System.err.println(e);}
     }
     
-  
+    return res;
   }
  
   public void DBCreate() throws ClassNotFoundException
