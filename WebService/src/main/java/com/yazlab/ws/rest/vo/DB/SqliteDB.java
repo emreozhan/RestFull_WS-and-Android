@@ -81,7 +81,6 @@ public class SqliteDB {
        return Jsondizi;
   }
     
-  
   public Response SelectHomePicture(int evID,int resimID) throws ClassNotFoundException, IOException
   {
     Class.forName("org.sqlite.JDBC");
@@ -97,13 +96,15 @@ public class SqliteDB {
         ResultSet count = statement.executeQuery("SELECT * FROM tblRESIM WHERE resimEvID=="+evID+"");
         count = statement.executeQuery("SELECT COUNT(*) FROM tblRESIM WHERE resimEvID=="+evID+"");
         count.next();
-        
-         ResultSet rs = statement.executeQuery("select * from tblRESIM WHERE resimEvID=="+evID+"");
+                int rowCount = count.getInt(1);
+
+          ResultSet rs = statement.executeQuery("select * from tblRESIM WHERE resimEvID=="+evID+"");
          int i=0;
          while(i<resimID)
          { 
           rs.next();
           String adres=rs.getString("resimYol");
+        
           File sourceimage=new File(adres);
           BufferedImage image = ImageIO.read(sourceimage);
           ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -135,26 +136,44 @@ public class SqliteDB {
  
   public void DBCreate() throws ClassNotFoundException
     {
-    // load the sqlite-JDBC driver using the current class loader
     Class.forName("org.sqlite.JDBC");
     Connection connection = null;
     try
     {
       connection = DriverManager.getConnection(DBPath);
       Statement statement = connection.createStatement();
-      statement.setQueryTimeout(30);  // set timeout to 30 sec
+      statement.setQueryTimeout(30);
       
       statement.executeUpdate("drop table if exists tblEV");
       statement.executeUpdate("drop table if exists tblRESIM");
-      statement.executeUpdate("CREATE TABLE tblEV ( `evID` INTEGER primary key autoincrement, `evIL` TEXT, `evEmlakTip` TEXT, `evAlan` INTEGER, `evOdaSayisi` TEXT, `evBinaYasi` INTEGER, `evBulKat` INTEGER, `evFiyat` REAL, `evAciklama` VARCHAR(200), PRIMARY KEY(`evID`) )");
-      statement.executeUpdate("CREATE TABLE `tblRESIM` ( `resimID` INTEGER, `resimYol` TEXT, `resimEvID` INTEGER, PRIMARY KEY(`resimID`) FOREIGN KEY(resimEvID) REFERENCES tblEV(evID))");
-      statement.executeUpdate("insert into tblEV values(1, 'kocaeli','satilik',110,'3+1',12,3,135.000,'yatirim amacli')");
-
+      statement.executeUpdate("CREATE TABLE tblEV ( `evID` INTEGER, `evIL` TEXT, `evEmlakTip` TEXT, `evAlan` INTEGER, `evOdaSayisi` TEXT, `evBinaYasi` INTEGER, `evBulKat` INTEGER, `evFiyat` REAL, `evAciklama` VARCHAR(200), PRIMARY KEY(`evID`) )");
+      //statement.executeUpdate("CREATE TABLE tblRESIM ( `resimID` INTEGER, `resimYol` TEXT, `resimEvID` INTEGER, PRIMARY KEY(`resimID`) FOREIGN KEY(resimEvID) REFERENCES tblEV(evID))");
+      statement.executeUpdate("CREATE TABLE tblRESIM (`resimID` INTEGER, `resimYol` TEXT, `resimEvID` INTEGER)");
+      
+    
+     String aa="e://wsfoto/";
+      statement.executeUpdate("insert into tblRESIM(resimID,resimYol,resimId) VALUES  (1,'"+aa+"11.jpg',1)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (2,'"+aa+"12.jpg',1)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (3,'"+aa+"13.jpg',1)");
+      
+      
+              
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (4,'"+aa+"21.jpg',2)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (5,'"+aa+"22.jpg',2)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (6,'"+aa+"23.jpg',2)");
+      
+     statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (7,'"+aa+"31.jpg',3)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (8,'"+aa+"32.jpg',3)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (9,'"+aa+"33.jpg',3)");
+      
+      statement.executeUpdate("insert into tblEV values(1, 'Kocaeli','Satilik',110,'3+1',12,3,135.000,'Yatirim amacli')");
+      statement.executeUpdate("insert into tblEV values(2, 'Ýstanbul','Kiralik',65,'1+1',5,1,1000,'Ogrenciye Kiralik ada manzaralý')");
+      statement.executeUpdate("insert into tblEV values(3, 'Antalya','Kiralik',100,'3+1',25,1,800,'Günlük Kiralik')");
+      statement.executeUpdate("insert into tblEV values(3, 'Ankara','Satilik',200,'4+1',5,3,200.000,'Aile için uygun merkezi')");
+     
     }
     catch(SQLException e)
     {
-      // if the error message is "out of memory", 
-      // it probably means no database file is found
       System.err.println(e.getMessage());
     }
     finally
@@ -166,7 +185,6 @@ public class SqliteDB {
       }
       catch(SQLException e)
       {
-        // connection close failed.
         System.err.println(e);
       }
     }

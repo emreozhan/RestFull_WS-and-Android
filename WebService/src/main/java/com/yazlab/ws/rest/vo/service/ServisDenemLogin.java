@@ -2,66 +2,40 @@ package com.yazlab.ws.rest.vo.service;
 
 
 import com.yazlab.ws.rest.vo.DB.SqliteDB;
+import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.Response;
+
 import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import com.yazlab.ws.rest.vo.JsonTip;
 import com.yazlab.ws.rest.vo.TopluDonus;
-import com.yazlab.ws.rest.vo.forImg;
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import static java.lang.System.out;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
-import javax.imageio.ImageIO;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
+
 
 
 @Path("/yazlab")
 public class ServisDenemLogin {
    
-    
     @GET
     @Path("/img/{evID}/{resimID}")
     @Produces("image/jpg")
     public  Response getImage(@PathParam(value = "evID") int evID,@PathParam(value = "resimID") int resimId) throws IOException, ClassNotFoundException {
          
         SqliteDB dbResim=new SqliteDB();
+        Response RR=dbResim.SelectHomePicture(evID,resimId);
 
-         Response RR=dbResim.SelectHomePicture(evID,resimId);
-         
-         
- 
      return RR;
     }
     
-
-   
-    
-    
     @GET
     @Path("/tamliste")
-    ///RestJR/restJR/Yazlab/m/dummy
     @Produces({javax.ws.rs.core.MediaType.APPLICATION_JSON})
     public TopluDonus ButunEvListele() throws ClassNotFoundException {
         
@@ -88,11 +62,11 @@ public class ServisDenemLogin {
     }
 
     private CacheControl getCacheControl(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     private Image resize(BufferedImage bufferedImage, int i, int i0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
     
