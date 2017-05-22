@@ -90,7 +90,7 @@ public class SqliteDB {
     {
       connection = DriverManager.getConnection(DBPath);
       Statement statement = connection.createStatement();
-      statement.setQueryTimeout(30);  // set timeout to 30 sec
+      statement.setQueryTimeout(30); 
 
         //Satir Sayýsý
         ResultSet count = statement.executeQuery("SELECT * FROM tblRESIM WHERE resimEvID=="+evID+"");
@@ -152,25 +152,34 @@ public class SqliteDB {
       
     
      String aa="e://wsfoto/";
-      statement.executeUpdate("insert into tblRESIM(resimID,resimYol,resimId) VALUES  (1,'"+aa+"11.jpg',1)");
-      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (2,'"+aa+"12.jpg',1)");
-      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (3,'"+aa+"13.jpg',1)");
+      statement.executeUpdate("insert into tblRESIM(resimID,resimYol,resimEvId) VALUES  (1,'"+aa+"11.jpg',1)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (2,'"+aa+"12.jpg',1)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (3,'"+aa+"13.jpg',1)");
+            
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (4,'"+aa+"21.jpg',2)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (5,'"+aa+"22.jpg',2)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (6,'"+aa+"23.jpg',2)");
+      
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (7,'"+aa+"31.jpg',3)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (8,'"+aa+"32.jpg',3)");
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (9,'"+aa+"33.jpg',3)");
+      
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (10,'"+aa+"41.jpg',4)");
+      
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (11,'"+aa+"51.jpg',5)");
+      
+      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimEvId) VALUES (12,'"+aa+"61.jpg',6)");
       
       
-              
-      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (4,'"+aa+"21.jpg',2)");
-      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (5,'"+aa+"22.jpg',2)");
-      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (6,'"+aa+"23.jpg',2)");
       
-     statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (7,'"+aa+"31.jpg',3)");
-      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (8,'"+aa+"32.jpg',3)");
-      statement.executeUpdate("insert into tblRESIM (resimID,resimYol,resimId) VALUES (9,'"+aa+"33.jpg',3)");
       
       statement.executeUpdate("insert into tblEV values(1, 'Kocaeli','Satilik',110,'3+1',12,3,135.000,'Yatirim amacli')");
       statement.executeUpdate("insert into tblEV values(2, 'Ýstanbul','Kiralik',65,'1+1',5,1,1000,'Ogrenciye Kiralik ada manzaralý')");
       statement.executeUpdate("insert into tblEV values(3, 'Antalya','Kiralik',100,'3+1',25,1,800,'Günlük Kiralik')");
-      statement.executeUpdate("insert into tblEV values(3, 'Ankara','Satilik',200,'4+1',5,3,200.000,'Aile için uygun merkezi')");
-     
+      statement.executeUpdate("insert into tblEV values(4, 'Hatay','Satilik',200,'4+1',5,3,200.000,'Aile için uygun merkezi')");
+      statement.executeUpdate("insert into tblEV values(5, 'Isparta','Kiralik',200,'3+1',11,1,475,'Merkeze Yakýn')");
+      statement.executeUpdate("insert into tblEV values(6, 'Sivas','Satilik',100,'1+1',22,2,150.000,'Kolay Ulaþým imkani')");
+      statement.executeUpdate("insert into tblEV values(7, 'Ankara','Satilik',150,'3+1',1,10,250.000,'Isý yalitimi yapilmis yeni bina')");
     }
     catch(SQLException e)
     {
